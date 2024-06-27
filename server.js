@@ -1,6 +1,3 @@
-
-
-
 require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
@@ -24,7 +21,11 @@ const pool = new Pool({
 // Middleware setup
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(cors());
+
+// Set up CORS to allow requests from your front-end
+app.use(cors({
+  origin: 'https://my-onnx-3eqcnozsd-ziqi-bots-projects.vercel.app', // 允许访问的来源
+}));
 
 const upload = multer();
 
@@ -160,4 +161,3 @@ app.delete('api/results/:id', async (req, res) => {
 const server = app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
-
