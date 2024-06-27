@@ -1,0 +1,6 @@
+numpy<2
+onnxruntime
+opencv-python
+websocket-client
+Flask
+requests
