@@ -42,7 +42,7 @@ const areAllDetectionsInvalid = (detections) => {
 };
 
 // Handle saving results
-app.post('saveResults', upload.none(), async (req, res) => {
+app.post('/saveResults', upload.none(), async (req, res) => {
   try {
     console.log('Request Body:', req.body);
     const detections = JSON.parse(req.body.averageCounts);
@@ -72,7 +72,7 @@ app.post('saveResults', upload.none(), async (req, res) => {
 });
 
 // 提供最新结果的端点
-app.get('api/results', async (req, res) => {
+app.get('/api/results', async (req, res) => {
   try {
     const result = await pool.query('SELECT * FROM results ORDER BY created_at DESC LIMIT 1');
     if (result.rows.length === 0) {
@@ -86,7 +86,7 @@ app.get('api/results', async (req, res) => {
 });
 
 // 提供所有结果的端点
-app.get('api/allResults', async (req, res) => {
+app.get('/api/allResults', async (req, res) => {
   try {
     const result = await pool.query('SELECT * FROM results ORDER BY created_at DESC');
     res.json(result.rows);
@@ -98,7 +98,7 @@ app.get('api/allResults', async (req, res) => {
 
 // CRUD 操作
 // 读取所有结果
-app.get('api/results', async (req, res) => {
+app.get('/api/results', async (req, res) => {
   try {
     const result = await pool.query('SELECT * FROM results ORDER BY created_at DESC');
     res.json(result.rows);
@@ -109,7 +109,7 @@ app.get('api/results', async (req, res) => {
 });
 
 // 读取单个结果
-app.get('api/results/:id', async (req, res) => {
+app.get('/api/results/:id', async (req, res) => {
   const { id } = req.params;
   try {
     const result = await pool.query('SELECT * FROM results WHERE id = $1', [id]);
@@ -124,7 +124,7 @@ app.get('api/results/:id', async (req, res) => {
 });
 
 // 更新结果
-app.put('api/results/:id', async (req, res) => {
+app.put('/api/results/:id', async (req, res) => {
   const { id } = req.params;
   const { pedestrian, biker, skater, cart, car, bus } = req.body;
   try {
@@ -143,7 +143,7 @@ app.put('api/results/:id', async (req, res) => {
 });
 
 // 删除结果
-app.delete('api/results/:id', async (req, res) => {
+app.delete('/api/results/:id', async (req, res) => {
   const { id } = req.params;
   try {
     const result = await pool.query('DELETE FROM results WHERE id = $1 RETURNING *', [id]);
