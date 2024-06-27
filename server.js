@@ -241,15 +241,14 @@
 
 
 
-
-
-
 require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
 const multer = require('multer');
 const cors = require('cors');
 const { Pool } = require('pg');
+const path = require('path');
+const fs = require('fs');
 
 // Initialize Express app
 const app = express();
@@ -267,7 +266,11 @@ const pool = new Pool({
 // Middleware setup
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(cors());
+
+// Set up CORS to allow requests from your front-end
+app.use(cors({
+  origin: 'https://my-onnx-3eqcnozsd-ziqi-bots-projects.vercel.app', // 允许访问的来源
+}));
 
 const upload = multer();
 
@@ -300,7 +303,7 @@ app.post('/saveResults', upload.none(), async (req, res) => {
       return res.status(200).json({ message: 'All detection values are invalid. Results not saved.' });
     }
 
-    // Save detections to database
+    // 保存检测结果到数据库
     const query = 'INSERT INTO results (pedestrian, biker, skater, cart, car, bus) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *';
     const values = detections;
     const result = await pool.query(query, values);
@@ -403,4 +406,3 @@ app.delete('/api/results/:id', async (req, res) => {
 const server = app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
-
