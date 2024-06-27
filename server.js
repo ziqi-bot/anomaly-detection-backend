@@ -24,7 +24,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // Set up CORS to allow requests from your front-end
 app.use(cors({
-  origin: 'https://my-onnx-3eqcnozsd-ziqi-bots-projects.vercel.app', // 允许访问的来源
+  origin: 'https://my-onnx-app.vercel.app', // 允许访问的来源
 }));
 
 const upload = multer();
